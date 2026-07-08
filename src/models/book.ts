@@ -2,7 +2,6 @@ import mongoose, { Schema } from "mongoose";
 
 
 export interface IBook extends Document {
-  id: number;
   title: string;
   author: string;
   currentPage?: number;
@@ -15,11 +14,6 @@ export interface IBook extends Document {
 
 const bookSchema = new Schema<IBook>(
   {
-    id: {
-      type: Number,
-      required: true,
-      unique: true,
-    },
 
     title: {
       type: String,

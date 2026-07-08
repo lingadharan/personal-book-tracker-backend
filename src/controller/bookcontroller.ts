@@ -1,6 +1,5 @@
 import type { Request, Response } from 'express';
 import Book from '../models/book.js';
-import mongoose from 'mongoose';
 
 export const createBookDetails = async (req: Request, res: Response) => {
   try {
@@ -19,10 +18,10 @@ export const createBookDetails = async (req: Request, res: Response) => {
 
 export const getBookDetails = async (req: Request, res: Response) => {
   try {
-    const { id } = req.query;
+    const { _id } = req.query;
 
-    if (id) {
-      const book = await Book.findOne({ id: Number(id) });
+    if (_id) {
+      const book = await Book.findOne({ _id: _id });
 
       if (!book) {
         return res.status(404).json({
@@ -54,23 +53,20 @@ export const getBookDetails = async (req: Request, res: Response) => {
 
 export const updateBookDetails = async (req: Request, res: Response) => {
   try {
-    const { id } = req.body;
-    console.log(id)
-    const bookId = Number(id);
-    console.log(bookId)
-    if (Number.isNaN(bookId)) {
+    const { _id } = req.body;
+    if (!_id) {
       return res.status(400).json({
         success: false,
-        message: "Book id must be a number",
+        message: "Book _id must be a number",
       });
     }
 
     const updatedBook = await Book.findOneAndUpdate(
-      { id: bookId },
+      { _id: _id },
       req.body,
       {
         new: true,
-        runValidators: true
+        runVal_idators: true
       }
     );
 
@@ -96,18 +92,16 @@ export const updateBookDetails = async (req: Request, res: Response) => {
 
 export const deleteBookDetails = async (req: Request, res: Response) => {
   try {
-    const { id } = req.query;
+    const { _id } = req.query;
 
-    const bookId = Number(id);
-
-    if (Number.isNaN(bookId)) {
+    if (!_id) {
       return res.status(400).json({
         success: false,
-        message: "Book id must be a number",
+        message: "Book _id must be a number",
       });
     }
 
-    const deletedBook = await Book.findOneAndDelete({ id: bookId });
+    const deletedBook = await Book.findOneAndDelete({ _id: _id });
 
     if (!deletedBook) {
       return res.status(404).json({
