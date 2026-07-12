@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import dataBaseConnection from './config/db.js';
 import router from './routers/bookRouter.js';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 dataBaseConnection();
@@ -10,7 +11,17 @@ dataBaseConnection();
 const app = express();
 const PORT_NUMBER = process.env.PORT || 5001;
 
-app.use(cors());
+app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
+
 app.use(express.json());
 
 app.use('/api', router);

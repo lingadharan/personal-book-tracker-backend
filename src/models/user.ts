@@ -1,26 +1,38 @@
 import mongoose, { Schema } from 'mongoose';
 
 interface IUser {
-  userName: string;
-  emailId: string;
-  password: string;
+  email: string;
+  name?: string;
+  avatar?: string;
+  provider: string;
+  providerId: string;
 }
 
 const UserSchema = new Schema<IUser>(
   {
-    userName: {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    name: {
+      type: String,
+      trim: true,
+    },
+    avatar: {
+      type: String,
+      trim: true,
+    },
+    provider: {
       type: String,
       required: true,
       trim: true,
     },
-    emailId: {
+    providerId: {
       type: String,
       required: true,
-      trim: true,
-    },
-    password: {
-      type: String,
-      required: true,
+      unique: true,
       trim: true,
     },
   },
