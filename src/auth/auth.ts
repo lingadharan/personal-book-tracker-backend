@@ -68,7 +68,6 @@ export const googleCallback = async (
       picture: string;
     } = googleUserResponse.data;
 
-    // Find or create user
     let user = await User.findOne({
       providerId: id,
       provider: 'google',
@@ -91,11 +90,10 @@ export const googleCallback = async (
     res.cookie('token', appToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'lax',
+      sameSite: 'none',
       maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 
-    // Redirect to frontend
     return res.redirect(`${process.env.FRONTEND_URL}/`);
   } catch (error) {
     if (axios.isAxiosError(error)) {
