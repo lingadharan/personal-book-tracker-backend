@@ -11,6 +11,7 @@ dataBaseConnection();
 const app = express();
 const PORT_NUMBER = process.env.PORT || 5001;
 
+app.set('trust proxy', 1);
 app.use(cookieParser());
 
 app.use(
